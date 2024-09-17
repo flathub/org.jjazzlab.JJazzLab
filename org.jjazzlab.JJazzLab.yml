@@ -106,6 +106,8 @@ modules:
           url: https://api.github.com/repos/jjazzboss/JJazzLab/releases/latest
           version-query: .tag_name | sub("^v"; "")
           url-query: .tarball_url
+      - type: patch
+        path: jjazzlab-metainfo-fix.diff
       # comment the following line when updating maven-dependencies.yml
       - maven-dependencies.yml
 
