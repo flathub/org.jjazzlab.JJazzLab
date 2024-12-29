@@ -3,7 +3,7 @@ runtime: org.freedesktop.Platform
 runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - 'org.freedesktop.Sdk.Extension.openjdk17'
+  - org.freedesktop.Sdk.Extension.openjdk17
 
 command: jjazzlab
 separate-locales: false
@@ -42,7 +42,7 @@ modules:
         x-checker-data:
           type: json
           url: https://archive.org/metadata/jjazz-lab-sound-font/files
-          version-query: '.result[] | select(.name=="JJazzLab-SoundFont.sf2") | .mtime'
+          version-query: .result[] | select(.name=="JJazzLab-SoundFont.sf2") | .mtime
           url-query: '"https://archive.org/download/jjazz-lab-sound-font/JJazzLab-SoundFont.sf2"'
 
   - shared-modules/linux-audio/fluidsynth2.json
@@ -87,20 +87,24 @@ modules:
       #build-args: ['--share=network']
     build-commands:
       - mvn package
-      - find app/application/target -name \*.dll -o -name \*.exe -o -name .lastModified | xargs rm -f
+      - find app/application/target -name \*.dll -o -name \*.exe -o -name .lastModified
+        | xargs rm -f
       - cp -R app/application/target/jjazzlab/* $FLATPAK_DEST
       - install -Dm644 misc/org.jjazzlab.JJazzLab.metainfo.xml $FLATPAK_DEST/share/metainfo/org.jjazzlab.JJazzLab.metainfo.xml
       - install -Dm644 misc/org.jjazzlab.JJazzLab.desktop $FLATPAK_DEST/share/applications/org.jjazzlab.JJazzLab.desktop
       - install -Dm644 graphics/logo-JJazzLab.svg $FLATPAK_DEST/share/icons/hicolor/scalable/apps/org.jjazzlab.JJazzLab.svg
-      - sed -i 's/^\(default_options=.*\)"/\1 -J-Dfluidsynthlib.path=\/app\/lib\/libfluidsynth.so.3 -J-DFluidSynthSoundFontFile=\/app\/share\/sounds\/sf2\/JJazzLab-SoundFont.sf2"/' $FLATPAK_DEST/etc/jjazzlab.conf
-      - sed -i 's/^\(default_options=.*\)"/\1 -J-Dmp.token=a67ed8aa58b306c1336dcf74fb99b2f69f1"/' $FLATPAK_DEST/etc/jjazzlab.conf
+      - sed -i 's/^\(default_options=.*\)"/\1 -J-Dfluidsynthlib.path=\/app\/lib\/libfluidsynth.so.3
+        -J-DFluidSynthSoundFontFile=\/app\/share\/sounds\/sf2\/JJazzLab-SoundFont.sf2"/'
+        $FLATPAK_DEST/etc/jjazzlab.conf
+      - sed -i 's/^\(default_options=.*\)"/\1 -J-Dmp.token=a67ed8aa58b306c1336dcf74fb99b2f69f1"/'
+        $FLATPAK_DEST/etc/jjazzlab.conf
       - sed -i 's/${DEFAULT_CACHEDIR_ROOT}/${XDG_CACHE_HOME}\/jjazzlab/' $FLATPAK_DEST/etc/jjazzlab.conf
       - sed -i 's/${DEFAULT_USERDIR_ROOT}/${XDG_DATA_HOME}\/jjazzlab/' $FLATPAK_DEST/etc/jjazzlab.conf
     sources:
       - type: archive
         dest-filename: JJazzLab.tar.gz
-        url: https://api.github.com/repos/jjazzboss/JJazzLab/tarball/4.1.1
-        sha256: 6a7001fddf2d721b34d77ef5a09726bdb6c2b2d405f15e0b3b3e998315fa4dd1
+        url: https://api.github.com/repos/jjazzboss/JJazzLab/tarball/4.1.2
+        sha256: 1253e4a21433eef488afc5d067a932922c1c47b039a869a555669da340545291
         x-checker-data:
           type: json
           url: https://api.github.com/repos/jjazzboss/JJazzLab/releases/latest
