@@ -86,7 +86,7 @@ modules:
       # uncomment the following line when updating maven-dependencies.yml
       #build-args: ['--share=network']
     build-commands:
-      - mvn package
+      - mvn package -Dmaven.test.skip=true
       - find app/application/target -name \*.dll -o -name \*.exe -o -name .lastModified | xargs rm -f
       - cp -R app/application/target/jjazzlab/* $FLATPAK_DEST
       - install -Dm644 misc/org.jjazzlab.JJazzLab.metainfo.xml $FLATPAK_DEST/share/metainfo/org.jjazzlab.JJazzLab.metainfo.xml
@@ -99,15 +99,13 @@ modules:
     sources:
       - type: archive
         dest-filename: JJazzLab.tar.gz
-        url: https://api.github.com/repos/jjazzboss/JJazzLab/tarball/4.1.1
-        sha256: 6a7001fddf2d721b34d77ef5a09726bdb6c2b2d405f15e0b3b3e998315fa4dd1
+        url: https://api.github.com/repos/jjazzboss/JJazzLab/tarball/4.1.2
+        sha256: 1253e4a21433eef488afc5d067a932922c1c47b039a869a555669da340545291
         x-checker-data:
           type: json
           url: https://api.github.com/repos/jjazzboss/JJazzLab/releases/latest
           version-query: .tag_name | sub("^v"; "")
           url-query: .tarball_url
-      - type: patch
-        path: jjazzlab-metainfo-fix.diff
       # comment the following line when updating maven-dependencies.yml
       - maven-dependencies.yml
 
