@@ -105,8 +105,8 @@ modules:
     sources:
       - type: archive
         dest-filename: JJazzLab.tar.gz
-        url: https://api.github.com/repos/jjazzboss/JJazzLab/tarball/5.0.0-win-linux
-        sha256: 61c992773756f6a7e8494761a3193ce41770d296a6cbdf2477ae4ba8c5be60fd
+        url: https://api.github.com/repos/jjazzboss/JJazzLab/tarball/5.0.1
+        sha256: 4dc828e7f34c18b3c5f9b672fbd994b0f0f55abaee27d76f7ac3e3531265cb53
         x-checker-data:
           type: json
           url: https://api.github.com/repos/jjazzboss/JJazzLab/releases/latest
