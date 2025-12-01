@@ -1,9 +1,9 @@
 id: org.jjazzlab.JJazzLab
 runtime: org.freedesktop.Platform
-runtime-version: '23.08'
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - 'org.freedesktop.Sdk.Extension.openjdk17'
+  - 'org.freedesktop.Sdk.Extension.openjdk'
 
 command: jjazzlab
 separate-locales: false
@@ -21,13 +21,12 @@ finish-args:
   - --filesystem=~/JJazzLab
   # setup Java Runtime Environment
   - --env=PATH=/usr/bin:/app/jre/bin:/app/bin
-  - --env=JAVA_HOME=/app/jre
 
 modules:
   - name: openjdk
     buildsystem: simple
     build-commands:
-      - /usr/lib/sdk/openjdk17/install.sh
+      - /usr/lib/sdk/openjdk/install.sh
 
   - name: soundfont
     buildsystem: simple
@@ -44,6 +43,14 @@ modules:
           url: https://archive.org/metadata/jjazz-lab-sound-font/files
           version-query: '.result[] | select(.name=="JJazzLab-SoundFont.sf2") | .mtime'
           url-query: '"https://archive.org/download/jjazz-lab-sound-font/JJazzLab-SoundFont.sf2"'
+
+  # Workaround for fluidsynth installing in lib64
+  # https://github.com/flathub/shared-modules/issues/76
+  - name: lib64
+    buildsystem: simple
+    build-commands:
+      - mkdir $FLATPAK_DEST/lib
+      - ln -s lib $FLATPAK_DEST/lib64
 
   - shared-modules/linux-audio/fluidsynth2.json
 
@@ -79,9 +86,8 @@ modules:
   - name: jjazzlab
     buildsystem: simple
     build-options:
+      append-path: /usr/lib/sdk/openjdk/bin
       env:
-        PATH: /usr/bin:/usr/lib/sdk/openjdk17/bin
-        JAVA_HOME: /usr/lib/sdk/openjdk17/jvm/openjdk-17
         MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
       # uncomment the following line when updating maven-dependencies.yml
       #build-args: ['--share=network']
@@ -99,8 +105,8 @@ modules:
     sources:
       - type: archive
         dest-filename: JJazzLab.tar.gz
-        url: https://api.github.com/repos/jjazzboss/JJazzLab/tarball/4.1.2
-        sha256: 1253e4a21433eef488afc5d067a932922c1c47b039a869a555669da340545291
+        url: https://api.github.com/repos/jjazzboss/JJazzLab/tarball/5.0.1
+        sha256: 4dc828e7f34c18b3c5f9b672fbd994b0f0f55abaee27d76f7ac3e3531265cb53
         x-checker-data:
           type: json
           url: https://api.github.com/repos/jjazzboss/JJazzLab/releases/latest
