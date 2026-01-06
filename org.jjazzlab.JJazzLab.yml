@@ -102,11 +102,13 @@ modules:
       - sed -i 's/^\(default_options=.*\)"/\1 -J-Dmp.token=a67ed8aa58b306c1336dcf74fb99b2f69f1"/' $FLATPAK_DEST/etc/jjazzlab.conf
       - sed -i 's/${DEFAULT_CACHEDIR_ROOT}/${XDG_CACHE_HOME}\/jjazzlab/' $FLATPAK_DEST/etc/jjazzlab.conf
       - sed -i 's/${DEFAULT_USERDIR_ROOT}/${XDG_DATA_HOME}\/jjazzlab/' $FLATPAK_DEST/etc/jjazzlab.conf
+      # temporary fixes (can be fixed easily upstream)
+      - sed -i 's/<\/\?b>//g' $FLATPAK_DEST/share/metainfo/org.jjazzlab.JJazzLab.metainfo.xml
     sources:
       - type: archive
         dest-filename: JJazzLab.tar.gz
-        url: https://api.github.com/repos/jjazzboss/JJazzLab/tarball/5.0.1
-        sha256: 4dc828e7f34c18b3c5f9b672fbd994b0f0f55abaee27d76f7ac3e3531265cb53
+        url: https://api.github.com/repos/jjazzboss/JJazzLab/tarball/5.1
+        sha256: cd919969c2571572b35fb9d0944f6b88e04c2617bde26b0a18265114b3d39a70
         x-checker-data:
           type: json
           url: https://api.github.com/repos/jjazzboss/JJazzLab/releases/latest
